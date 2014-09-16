@@ -32,6 +32,7 @@ public class Main implements Runnable{
 		while(running){
 			
 			Display.update();
+			Display.sync(50);
 			if(Display.isCloseRequested()) running = false;
 			
 		}
