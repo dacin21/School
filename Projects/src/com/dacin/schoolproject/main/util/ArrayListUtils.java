@@ -1,4 +1,4 @@
-package main.util;
+package com.dacin.schoolproject.main.util;
 
 public class ArrayListUtils {
 	

@@ -1,4 +1,4 @@
-package main.util;
+package com.dacin.schoolproject.main.util;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
@@ -14,9 +14,10 @@ import static org.lwjgl.opengl.GL11.glTexParameteri;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
-import main.util.BufferUtils;
+import com.dacin.schoolproject.main.util.BufferUtils;
 
 public class TextureUtils {
 	//Die class isch da, zum Texture vome BildFile in e LWJGL texture z lade und d ID zrugbecho

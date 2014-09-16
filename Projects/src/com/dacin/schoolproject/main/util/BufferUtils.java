@@ -1,4 +1,4 @@
-package main.util;
+package com.dacin.schoolproject.main.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

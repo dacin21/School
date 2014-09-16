@@ -1,4 +1,4 @@
-package main;
+package com.dacin.schoolproject.main;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

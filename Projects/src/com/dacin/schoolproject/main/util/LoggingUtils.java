@@ -1,4 +1,4 @@
-package main.util;
+package com.dacin.schoolproject.main.util;
 
 /**
  * This is a simple implementation for logging. It contains functionality to log

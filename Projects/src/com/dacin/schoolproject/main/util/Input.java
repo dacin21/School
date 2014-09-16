@@ -1,4 +1,4 @@
-package main.util;
+package com.dacin.schoolproject.main.util;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
