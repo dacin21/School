@@ -10,9 +10,6 @@ public class LoggingUtils {
 	public enum Level {
 		// levels
 		DEBUG, INFO, WARNING, ERROR
-
-		// Remark: If you order the entries in this enum reasonably,
-		// you can compare them using .ordinal()
 	}
 
 	/** The level of the logger. Determines which messages are actually logged. */
