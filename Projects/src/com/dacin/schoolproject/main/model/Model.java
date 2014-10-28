@@ -63,6 +63,7 @@ public class Model {
 			v = this.vertices.get((int)face.vertex.z - 1);
 			glVertex3f(v.x, v.y, v.z);
 		}
+		glEnd();
 	}
 
 	
