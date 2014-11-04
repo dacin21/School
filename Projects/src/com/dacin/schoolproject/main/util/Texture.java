@@ -65,6 +65,12 @@ public class Texture {
 		return tex;
 	}
 	
+	public void bind(){
+		glBindTexture(GL_TEXTURE_2D, this.getID());
+		
+	}
+
+	
 	public int getWidth(){
 		return width;
 	}

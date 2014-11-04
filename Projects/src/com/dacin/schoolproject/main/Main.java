@@ -1,8 +1,15 @@
 package com.dacin.schoolproject.main;
 
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
+import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -13,31 +20,30 @@ import org.lwjgl.util.glu.GLU;
 import com.dacin.schoolproject.main.model.EulerCamera;
 import com.dacin.schoolproject.main.model.Model;
 import com.dacin.schoolproject.main.util.ModelUtils;
+import com.dacin.schoolproject.main.util.Texture;
 
-import static org.lwjgl.opengl.GL11.*;
+public class Main implements Runnable {
 
-public class Main implements Runnable{
-	
-	private int width=1280;
+	private int width = 1280;
 	private int height = 720;
 	private String title = "Test";
 	private float fov = 70;
 	private float zNear = -100;
 	private float zFar = 100;
-	
+
 	private boolean running = false;
 	private Thread thread;
 	private static EulerCamera camera;
-	
+
 	private Model testModel;
-	
-	public void start(){
+
+	public void start() {
 		running = true;
-		thread =  new Thread(this, "Display");
+		thread = new Thread(this, "Display");
 		thread.start();
 	}
-	
-	public void run(){
+
+	public void run() {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
@@ -48,27 +54,33 @@ public class Main implements Runnable{
 		}
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		GLU.gluPerspective(fov, (float) Display.getWidth() / (float)Display.getHeight(), zNear, zFar);
-		 camera = new EulerCamera.Builder().setAspectRatio((float) Display.getWidth() / Display.getHeight())
-				 .setRotation(-0.0f, 0.0f, 0.0f).setPosition(-1.5f, 9.16f, 5.95f).setFieldOfView(60).build();
-				 camera.applyOptimalStates();
-				 camera.applyPerspectiveMatrix();
-				 
-		testModel = ModelUtils.loadModel("bunny.obj");
-		
-		while(running){
-			
+		GLU.gluPerspective(fov,
+				(float) Display.getWidth() / (float) Display.getHeight(),
+				zNear, zFar);
+		camera = new EulerCamera.Builder()
+				.setAspectRatio(
+						(float) Display.getWidth() / Display.getHeight())
+				.setRotation(-0.0f, 0.0f, 0.0f)
+				.setPosition(-1.5f, 9.16f, 5.95f).setFieldOfView(60).build();
+		camera.applyOptimalStates();
+		camera.applyPerspectiveMatrix();
+
+		testModel = ModelUtils.loadModel("cow.obj");
+		testModel.setTexture(new Texture("colorOpacityCow.png"));
+
+		while (running) {
+
 			Display.update();
 			Display.sync(50);
 			render();
-			System.out.println( camera.toString());
-			
+			//System.out.println(camera.toString());
 
-				camera.processMouse(1, 80, -80);
-				camera.processKeyboard(16, 1, 1, 0.1f);
-			
-			if(Display.isCloseRequested()) running = false;
-			
+			camera.processMouse(1, 80, -80);
+			camera.processKeyboard(16, 1, 1, 0.1f);
+
+			if (Display.isCloseRequested())
+				running = false;
+
 		}
 		Display.destroy();
 	}
@@ -77,17 +89,16 @@ public class Main implements Runnable{
 		new Main().start();
 
 	}
-	
+
 	private void render(){
 		 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		 glLoadIdentity();
 		 camera.applyTranslations();
 		 camera.applyPerspectiveMatrix();
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		 glColor3f(1.0f, 1.0f, 1.0f);
 			testModel.render();
 	}
-	
 
 }
