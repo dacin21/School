@@ -1,15 +1,6 @@
 package com.dacin.schoolproject.main;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
-import static org.lwjgl.opengl.GL11.GL_LINE;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glPolygonMode;
+import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -53,6 +44,7 @@ public class Main implements Runnable {
 			e.printStackTrace();
 		}
 		glMatrixMode(GL_PROJECTION);
+		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
 		GLU.gluPerspective(fov,
 				(float) Display.getWidth() / (float) Display.getHeight(),
@@ -65,8 +57,8 @@ public class Main implements Runnable {
 		camera.applyOptimalStates();
 		camera.applyPerspectiveMatrix();
 
-		testModel = ModelUtils.loadModel("cow.obj");
-		testModel.setTexture(new Texture("colorOpacityCow.png"));
+		testModel = ModelUtils.loadModel("Sphere.obj");
+		testModel.setTexture(new Texture("Sphere.png"));
 
 		while (running) {
 

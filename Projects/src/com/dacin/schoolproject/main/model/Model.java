@@ -75,8 +75,7 @@ public class Model {
 				glNormal3f(n.x, n.y, n.z);
 			} 
 			if(hasTexture){
-				
-				t= this.textureCords.get((int)face.vertex.x-1);
+				t= this.textureCords.get((int)face.tex.x-1);
 				glTexCoord2f(t.x, t.y);
 			}
 			v = this.vertices.get((int)face.vertex.x - 1);
@@ -88,17 +87,17 @@ public class Model {
 			glNormal3f(n.x, n.y, n.z);
 			} 
 			if(hasTexture){
-				t= this.textureCords.get((int)face.vertex.y-1);
+				t= this.textureCords.get((int)face.tex.y-1);
 				glTexCoord2f(t.x, t.y);
 			}
 			v = this.vertices.get((int)face.vertex.y - 1);
 			glVertex3f(v.x, v.y, v.z);
+			
+			
 			if(hasTexture){
-				t= this.textureCords.get((int)face.vertex.z-1);
+				t= this.textureCords.get((int)face.tex.z-1);
 				glTexCoord2f(t.x, t.y);
 			}
-			
-			
 			if(hasNormals){
 			n = this.nomals.get((int)face.normal.z-1);
 			glNormal3f(n.x, n.y, n.z);

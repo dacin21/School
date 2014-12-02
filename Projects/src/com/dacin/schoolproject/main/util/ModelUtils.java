@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.dacin.schoolproject.main.model.Face;
 import com.dacin.schoolproject.main.model.Model;
+import static com.dacin.schoolproject.main.util.LoggingUtils.*;
 
 public class ModelUtils {
 
@@ -30,27 +31,31 @@ public class ModelUtils {
 					float x = Float.valueOf(line.split(" ")[1]);
 					float y = Float.valueOf(line.split(" ")[2]);
 					float z = Float.valueOf(line.split(" ")[3]);
-					m.hasNormals = true;
+					//m.hasNormals = true;
 					m.nomals.add(new Vector3f(x,y,z));
 				} else if(line.startsWith("f ")){
 					Vector3f vertexIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]),
 							Float.valueOf(line.split(" ")[2].split("/")[0]),
 							Float.valueOf(line.split(" ")[3].split("/")[0]));
 					Vector3f normalIndices;
+					Vector3f textureIndices = null;
 					if(line.contains("//")){
 					normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]),
 							Float.valueOf(line.split(" ")[2].split("/")[2]),
 							Float.valueOf(line.split(" ")[3].split("/")[2]));
 					} else {
-						normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[1]),
+						normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]),
+								Float.valueOf(line.split(" ")[2].split("/")[2]),
+								Float.valueOf(line.split(" ")[3].split("/")[2]));
+						textureIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[1]),
 								Float.valueOf(line.split(" ")[2].split("/")[1]),
 								Float.valueOf(line.split(" ")[3].split("/")[1]));
 					}
-					m.faces.add(new Face(vertexIndices, normalIndices));
+					m.faces.add(new Face(vertexIndices, normalIndices, textureIndices));
 				}else if(line.startsWith("vt")){
 					m.hasTexture = true;
 					float v = Float.valueOf(line.split(" ")[1]);
-					float t = Float.valueOf(line.split(" ")[2]);
+					float t = 1-Float.valueOf(line.split(" ")[2]);
 					m.textureCords.add(new Vector2f(v,t));
 				}
 			}
@@ -58,6 +63,11 @@ public class ModelUtils {
 			System.err.println("File probably not found at: " + path);
 			e.printStackTrace();
 		} 
+		info("Model Loaded sucessfuly");
+		debug("Vertices: " + m.vertices.size());
+		debug("Normals: " + m.nomals.size());
+		debug("Faces: " + m.faces.size());
+		debug("TextureCoords: " + m.textureCords.size());
 		return m;
 		
 	}
