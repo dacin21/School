@@ -1,6 +1,17 @@
 package com.dacin.schoolproject.main;
 
-import static org.lwjgl.opengl.GL11.*;
+import static com.dacin.schoolproject.main.util.LoggingUtils.debug;
+import static com.dacin.schoolproject.main.util.LoggingUtils.error;
+import static com.dacin.schoolproject.main.util.LoggingUtils.info;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -10,7 +21,7 @@ import org.lwjgl.util.glu.GLU;
 
 import com.dacin.schoolproject.main.model.EulerCamera;
 import com.dacin.schoolproject.main.model.Model;
-import com.dacin.schoolproject.main.util.ModelUtils;
+import com.dacin.schoolproject.main.objects.world.WorldFloor;
 import com.dacin.schoolproject.main.util.Texture;
 
 public class Main implements Runnable {
@@ -27,6 +38,7 @@ public class Main implements Runnable {
 	private static EulerCamera camera;
 
 	private Model testModel;
+	WorldFloor floor;
 
 	public void start() {
 		running = true;
@@ -35,14 +47,17 @@ public class Main implements Runnable {
 	}
 
 	public void run() {
+		debug("new Thread opened successfully");
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
 			Display.create();
 		} catch (LWJGLException e) {
+			error("Failed to create display");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		debug("Display Initialized successfully");
 		glMatrixMode(GL_PROJECTION);
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
@@ -50,15 +65,16 @@ public class Main implements Runnable {
 				(float) Display.getWidth() / (float) Display.getHeight(),
 				zNear, zFar);
 		camera = new EulerCamera.Builder()
-				.setAspectRatio(
-						(float) Display.getWidth() / Display.getHeight())
+				.setAspectRatio((float) Display.getWidth() / Display.getHeight())
 				.setRotation(-0.0f, 0.0f, 0.0f)
 				.setPosition(-1.5f, 9.16f, 5.95f).setFieldOfView(60).build();
 		camera.applyOptimalStates();
 		camera.applyPerspectiveMatrix();
-
-		testModel = ModelUtils.loadModel("Sphere.obj");
-		testModel.setTexture(new Texture("Sphere.png"));
+		debug("Camera loaded sucessfully");
+		info("loading Models");
+		//testModel = ModelUtils.loadModel("Sphere.obj");
+		//testModel.setTexture(new Texture("Sphere.png"));
+		floor= new WorldFloor(new Texture("uv.png"));
 
 		while (running) {
 
@@ -78,6 +94,7 @@ public class Main implements Runnable {
 	}
 
 	public static void main(String[] args) {
+		debug("Game Started");
 		new Main().start();
 
 	}
@@ -90,7 +107,8 @@ public class Main implements Runnable {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		 glColor3f(1.0f, 1.0f, 1.0f);
-			testModel.render();
+			//testModel.render();
+		 floor.render();
 	}
 
 }

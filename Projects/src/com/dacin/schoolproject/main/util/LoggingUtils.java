@@ -1,11 +1,19 @@
 package com.dacin.schoolproject.main.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * This is a simple implementation for logging. It contains functionality to log
  * messages of different severity, and to change the level dynamically.
  */
 
 public class LoggingUtils {
+
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+
+
 
 	public enum Level {
 		// levels
@@ -34,9 +42,9 @@ public class LoggingUtils {
 	 * @param message
 	 *            The message to log.
 	 */
-	public static void log(Level level, String message) {
+	private static void log(Level level, String message) {
 		if(level.ordinal()>=CURRENT_LEVEL.ordinal()){
-			System.out.println(message);
+			System.out.println("[" + sdf.format(new Date()) + "]" +  message);
 		}
 	}
 
@@ -48,7 +56,7 @@ public class LoggingUtils {
 	 *            The message to log.
 	 */
 	public static void error(String message) {
-		log(Level.ERROR, message);
+		log(Level.ERROR,"[Error] "+ message);
 	}
 
 	/**
@@ -59,7 +67,7 @@ public class LoggingUtils {
 	 *            The message to log.
 	 */
 	public static void warning(String message) {
-		log(Level.WARNING, message);
+		log(Level.WARNING, "[Warn]  " + message);
 	}
 
 	/**
@@ -70,7 +78,7 @@ public class LoggingUtils {
 	 *            The message to log.
 	 */
 	public static void info(String mesage) {
-		log(Level.INFO, mesage);
+		log(Level.INFO,"[Info]  " +  mesage);
 		
 	}
 
@@ -82,7 +90,7 @@ public class LoggingUtils {
 	 *            The message to log.
 	 */
 	public static void debug(String mesage) {
-		log(Level.DEBUG, mesage);
+		log(Level.DEBUG,"[Debug] " +  mesage);
 	}
 
 	/* ----- */

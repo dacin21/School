@@ -14,6 +14,7 @@ import static com.dacin.schoolproject.main.util.LoggingUtils.*;
 public class ModelUtils {
 
 	public static Model loadModel(String path){
+		info("Attempting to load model from " + path);
 		Model m = new Model();
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -60,7 +61,7 @@ public class ModelUtils {
 				}
 			}
 		} catch(IOException e){
-			System.err.println("File probably not found at: " + path);
+			error("Loading moddel from: " + path+"  failed");
 			e.printStackTrace();
 		} 
 		info("Model Loaded sucessfuly");
