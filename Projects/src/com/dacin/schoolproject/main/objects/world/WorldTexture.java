@@ -32,7 +32,7 @@ public class WorldTexture {
 	public void createWorldTexture() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; i++) {
-				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + random.nextInt(maxBlueColor) / 100 << 16 + random.nextInt(100) / 100 << 8;// 00000000x0
+				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + (random.nextInt(50) + 50) / 100 << 16 + random.nextInt(maxBlueColor) / 100 << 8;// 00000000x0
 			}
 		}
 		for (int i = 0; i < width; i++) {
@@ -46,7 +46,7 @@ public class WorldTexture {
 			for (int j = 0; j < length; j++) {
 				for (int k = 0; k < resolution; k++) {
 					for (int l = 0; l < resolution; l++) {
-						pixels[i * resolution * length + j * resolution + k * length + l] = Math.abs(pixels[i * resolution * length + j * resolution + k * length] - pixels[(i + 1) * resolution * length + (j+1) * resolution + k * length]) / resolution;
+						pixels[i * resolution * length + j * resolution + k * length + l] = Math.abs(pixels[i * resolution * length + j * resolution + k * length] - pixels[(i + 1) * resolution * length + (j + 1) * resolution + k * length]) / resolution;
 					}
 				}
 			}
