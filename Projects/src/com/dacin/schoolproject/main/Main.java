@@ -54,7 +54,6 @@ public class Main implements Runnable {
 			Display.create();
 		} catch (LWJGLException e) {
 			error("Failed to create display");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		debug("Display Initialized successfully");

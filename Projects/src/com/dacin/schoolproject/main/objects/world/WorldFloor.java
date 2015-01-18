@@ -13,8 +13,8 @@ public class WorldFloor {
 	private Model Floor;
 	private Random random = new Random();
 	private static final float range = 0.4f;
-	private static final int maxX = 100;
-	private static final int maxY = 50;
+	static final int maxX = 100;
+	static final int maxY = 50;
 	
 	public WorldFloor(Texture tex){
 		Floor = new Model();
