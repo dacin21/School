@@ -21,8 +21,8 @@ import org.lwjgl.util.glu.GLU;
 
 import com.dacin.schoolproject.main.model.EulerCamera;
 import com.dacin.schoolproject.main.model.Model;
+import com.dacin.schoolproject.main.model.PlayerCamera;
 import com.dacin.schoolproject.main.objects.world.WorldFloor;
-import com.dacin.schoolproject.main.util.Texture;
 
 public class Main implements Runnable {
 
@@ -35,10 +35,11 @@ public class Main implements Runnable {
 
 	private boolean running = false;
 	private Thread thread;
-	private static EulerCamera camera;
+	//private static EulerCamera camera;
+	private static PlayerCamera camera;
 
 	private Model testModel;
-	WorldFloor floor;
+	public static WorldFloor floor;
 
 	public void start() {
 		running = true;
@@ -63,12 +64,13 @@ public class Main implements Runnable {
 		GLU.gluPerspective(fov,
 				(float) Display.getWidth() / (float) Display.getHeight(),
 				zNear, zFar);
-		camera = new EulerCamera.Builder()
+		/*camera = new EulerCamera.Builder()
 				.setAspectRatio((float) Display.getWidth() / Display.getHeight())
 				.setRotation(-0.0f, 0.0f, 0.0f)
 				.setPosition(-1.5f, 9.16f, 5.95f).setFieldOfView(60).build();
 		camera.applyOptimalStates();
-		camera.applyPerspectiveMatrix();
+		camera.applyPerspectiveMatrix();*/
+		camera = new PlayerCamera();
 		debug("Camera loaded sucessfully");
 		info("loading Models");
 		//testModel = ModelUtils.loadModel("Sphere.obj");
@@ -82,8 +84,9 @@ public class Main implements Runnable {
 			render();
 			//System.out.println(camera.toString());
 
-			camera.processMouse(10, 80, -80);
-			camera.processKeyboard(16, 10, 10, 10.0f);
+			/*camera.processMouse(10, 80, -80);
+			camera.processKeyboard(16, 10, 10, 10.0f);*/
+			camera.processMouseAndKeyboard();
 
 			if (Display.isCloseRequested())
 				running = false;
@@ -101,8 +104,9 @@ public class Main implements Runnable {
 	private void render(){
 		 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		 glLoadIdentity();
-		 camera.applyTranslations();
-		 camera.applyPerspectiveMatrix();
+		 /*camera.applyTranslations();
+		 camera.applyPerspectiveMatrix();*/
+		 camera.applyRotationAndTranslation();
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		 glColor3f(1.0f, 1.0f, 1.0f);

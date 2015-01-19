@@ -38,6 +38,7 @@ public class WorldTexture extends Texture {
 	public void createWorldTexture() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
+				// Why /100 das git ja denn immer 0 (integer <1)
 				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + (random.nextInt(50) + 50) / 100 << 16 + random.nextInt(maxBlueColor) / 100 << 8;// 00000000x0
 			System.out.println(pixels[i * resolution * length + j * resolution] );
 			}

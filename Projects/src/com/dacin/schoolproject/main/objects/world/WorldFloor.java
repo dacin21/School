@@ -10,7 +10,7 @@ import com.dacin.schoolproject.main.model.Model;
 import com.dacin.schoolproject.main.util.Texture;
 
 public class WorldFloor {
-	private Model Floor;
+	public Model Floor;
 	private Random random = new Random();
 	public static final int maxX = 200;
 	public static final int maxZ = 150;
