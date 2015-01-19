@@ -20,8 +20,8 @@ public class WorldTexture extends Texture {
 
 	private final int length = WorldFloor.maxX;
 	private final int width = WorldFloor.maxZ;
-	private final int maxBlueColor = 20;// 100 ist das Maximum
-	private final int maxRedColor = 50;// 100 ist das Maximum
+	private final int maxBlueColor = 0x20;// 100 ist das Maximum
+	private final int maxRedColor = 0x50;// 100 ist das Maximum
 	private final int resolution = 10;// pixels per Einheit length/width
 
 	private int pixels[] = new int[length * resolution * width * resolution];
@@ -39,7 +39,7 @@ public class WorldTexture extends Texture {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
 				// Why /100 das git ja denn immer 0 (integer <1)
-				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + (random.nextInt(50) + 50) / 100 << 16 + random.nextInt(maxBlueColor) / 100 << 8;// 00000000x0
+				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) << 24 + (random.nextInt(0x50) + 0x50) << 16 + random.nextInt(maxBlueColor) << 8;// 00000000x0
 			System.out.println(pixels[i * resolution * length + j * resolution] );
 			}
 		}
