@@ -12,41 +12,56 @@ import com.dacin.schoolproject.main.util.Texture;
 public class WorldFloor {
 	private Model Floor;
 	private Random random = new Random();
-	private static final float range = 0.4f;
-	static final int maxX = 100;
-	static final int maxY = 50;
+	public static final int maxX = 200;
+	public static final int maxZ = 150;
+	private static final int maxModifyRadius = 100;
+	private static final int minModifyRadius = 15;
+	private static final float maxModifyRadiusY = 2.0f;
+	private static final float minModifyRadiusY = 1.0f;
+	private WorldTexture tex;
 	
-	public WorldFloor(Texture tex){
+	public WorldFloor(){
+		tex = new WorldTexture();
 		Floor = new Model();
 		Floor.setTexture(tex);
 		int i, j;
-		Floor.vertices.add(new Vector3f(0.0f, 0.0f, 0.0f));
-		for(j = 1; j< maxX; j++){
-			float oldy = Floor.vertices.get(j-1).y;
-			float newy = random.nextFloat() * range * 2 - range + oldy;
-			Floor.vertices.add(new Vector3f((float)j, newy, 0.0f));
-		}
 		
-		for(i = 1; i < maxY ; i++){
+		// Flat floor
+		for(i = 0; i < maxZ ; i++){
 			for(j = 0; j < maxX; j++){
-				if(j!= 0){
-					float oldy = Floor.vertices.get(i*maxX + j - maxX).y;
-					float oldy2 = Floor.vertices.get(i*maxX + j - 1).y;
-					if(Math.abs(oldy-oldy2) > 2 * range) {
-						Floor.vertices.add(new Vector3f((float)j,(oldy + oldy2)/2,(float)i));
-					} else{
-						float newRange =  (Math.min(oldy, oldy2)+range - (Math.max(oldy, oldy2)-range));
-						float newy = random.nextFloat() * newRange * 2 - newRange ;
-						Floor.vertices.add(new Vector3f((float)j , newy,(float)i ));
-					}
-				} else {
-					float oldy = Floor.vertices.get(i*maxX- maxX).y;
-					float newy = random.nextFloat() * range * 2 - range + oldy;
-					Floor.vertices.add(new Vector3f(0.0f, newy, (float)i));
-				}
+				Floor.vertices.add(new Vector3f((float)j, 0.0f, (float)i));
 			}
 		}
-		for(i = 0; i < maxY - 1; i++){
+		//Landscape
+		int genmax = random.nextInt(maxX*maxZ/25) + maxX * maxZ / 25;
+		//genmax = 1;
+		for(i = 0; i < genmax; i++){
+			int range = random.nextInt(maxModifyRadius) + minModifyRadius;
+			int range2 = random.nextInt(maxModifyRadius) + minModifyRadius;
+			float rangeY = random.nextFloat() * maxModifyRadiusY + minModifyRadiusY;
+			int xBase = random.nextInt(maxX);
+			int zBase = random.nextInt(maxZ);
+			float yModifier = random.nextFloat() - 0.5f;
+			
+			for(int x = -range; x < range; x++){
+				for(int z = -range2; z < range2; z++){
+					float a = range;
+					float c = range2;
+					float b = rangeY;
+					float yOffset = b/(a*c) * (float)Math.sqrt(a*a*c*c - a*a*z*z - c*c*x*x);
+					yOffset *= yModifier;
+					if(a*a*c*c - a*a*z*z - c*c*x*x > 0){
+						modifyVertex(xBase + x, yOffset, zBase + z);
+						//modifyVertex(xBase + x, 1, zBase + z);
+					}
+				}
+			}
+			
+		}
+		
+		
+		//Faces + textures
+		for(i = 0; i < maxZ - 1; i++){
 			for(j = 0; j< maxX - 1; j++){
 				Vector3f vec = new Vector3f(i*maxX+j + 1, i*maxX+j + 1 + 1, i*maxX+j + maxX + 1);
 				Floor.faces.add(new Face(vec, vec, vec));
@@ -55,13 +70,20 @@ public class WorldFloor {
 				
 			}
 		}
-
-		for(i = 0; i < maxY; i++){
+		for(i = 0; i < maxZ; i++){
 			for(j = 0; j< maxX; j++){
-				Floor.textureCords.add(new Vector2f((float)j / (float)maxX, (float)i / (float)maxY));
+				Floor.textureCords.add(new Vector2f((float)j / (float)maxX, (float)i / (float)maxZ));
 			}
 		}
 		Floor.hasTexture = true;
+	}
+	
+	private void modifyVertex(int x, float yOffset, int z){
+		if(x < 0 || x >= maxX) return;
+		if(z < 0 || z >= maxZ) return;
+		Vector3f vec = Floor.vertices.get(z*maxX + x);
+		vec = new Vector3f(vec.x, vec.y + yOffset, vec.z);
+		Floor.vertices.set(z*maxX+x, vec);
 	}
 	
 	public void render(){

@@ -14,20 +14,27 @@ import static org.lwjgl.opengl.GL11.glTexParameteri;
 import java.util.Random;
 
 import com.dacin.schoolproject.main.util.BufferUtils;
+import com.dacin.schoolproject.main.util.Texture;
 
-public class WorldTexture {
+public class WorldTexture extends Texture {
 
 	private final int length = WorldFloor.maxX;
-	private final int width = WorldFloor.maxY;
+	private final int width = WorldFloor.maxZ;
 	private final int maxBlueColor = 20;// 100 ist das Maximum
 	private final int maxRedColor = 50;// 100 ist das Maximum
 	private final int resolution = 10;// pixels per Einheit length/width
 
 	private int pixels[] = new int[(length * resolution) * (width * resolution)];
 
-	private int worldTextureId;
+
 
 	private Random random = new Random();
+	
+	public WorldTexture(){
+		/*super.width = this.width;
+		super.height = this.length;*/
+		this.createWorldTexture();
+	}
 
 	public void createWorldTexture() {
 		for (int i = 0; i < width; i++) {
@@ -51,8 +58,8 @@ public class WorldTexture {
 				}
 			}
 		}
-		worldTextureId = glGenTextures();
-		glBindTexture(GL_TEXTURE_2D, worldTextureId); // zu bearbeitendi Textur
+		textureID = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D, textureID); // zu bearbeitendi Textur
 														// uf d id Setze
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -60,7 +67,8 @@ public class WorldTexture {
 		glBindTexture(GL_TEXTURE_2D, 0); // zu bearbeitendi Textur Freigeh
 	}
 
+	@Deprecated
 	public int getWorldTextureId() {
-		return worldTextureId;
+		return getID();
 	}
 }

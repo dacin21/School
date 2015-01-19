@@ -22,11 +22,13 @@ import com.dacin.schoolproject.main.util.BufferUtils;
 public class Texture {
 	//Die class isch da, zum Texture vome BildFile in e LWJGL texture z lade und d ID zrugbecho
 
-	private int width, height;
-	private int texture;
+	protected int width, height;
+	protected int textureID;
+	protected Texture(){
+	}
 	
 	public Texture(String path){
-		texture = load(path);
+		textureID = load(path);
 	}
 	
 	
@@ -78,7 +80,7 @@ public class Texture {
 		return height;
 	}
 	public int getID(){
-		return texture;
+		return textureID;
 	}
 }
 

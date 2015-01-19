@@ -28,7 +28,7 @@ public class Main implements Runnable {
 
 	private int width = 1280;
 	private int height = 720;
-	private String title = "Test";
+	private String title = "School 3d Project";
 	private float fov = 70;
 	private float zNear = -100;
 	private float zFar = 100;
@@ -73,7 +73,7 @@ public class Main implements Runnable {
 		info("loading Models");
 		//testModel = ModelUtils.loadModel("Sphere.obj");
 		//testModel.setTexture(new Texture("Sphere.png"));
-		floor= new WorldFloor(new Texture("uv.png"));
+		floor= new WorldFloor();
 
 		while (running) {
 
@@ -82,8 +82,8 @@ public class Main implements Runnable {
 			render();
 			//System.out.println(camera.toString());
 
-			camera.processMouse(1, 80, -80);
-			camera.processKeyboard(16, 1, 1, 0.1f);
+			camera.processMouse(10, 80, -80);
+			camera.processKeyboard(16, 10, 10, 10.0f);
 
 			if (Display.isCloseRequested())
 				running = false;
