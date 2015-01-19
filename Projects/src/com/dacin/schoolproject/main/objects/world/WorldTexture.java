@@ -24,21 +24,20 @@ public class WorldTexture extends Texture {
 	private final int maxRedColor = 50;// 100 ist das Maximum
 	private final int resolution = 10;// pixels per Einheit length/width
 
-	private int pixels[] = new int[(length * resolution) * (width * resolution)];
-
-
+	private int pixels[] = new int[length * resolution * width * resolution];
 
 	private Random random = new Random();
-	
-	public WorldTexture(){
-		/*super.width = this.width;
-		super.height = this.length;*/
+
+	public WorldTexture() {
+		/*
+		 * super.width = this.width; super.height = this.length;
+		 */
 		this.createWorldTexture();
 	}
 
 	public void createWorldTexture() {
 		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < length; i++) {
+			for (int j = 0; j < length; j++) {
 				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + (random.nextInt(50) + 50) / 100 << 16 + random.nextInt(maxBlueColor) / 100 << 8;// 00000000x0
 			}
 		}
@@ -51,7 +50,7 @@ public class WorldTexture extends Texture {
 		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
-				for (int k = 0; k < resolution; k++) {
+				for (int k = 0; k < resolution - 1; k++) {
 					for (int l = 0; l < resolution; l++) {
 						pixels[i * resolution * length + j * resolution + k * length + l] = Math.abs(pixels[i * resolution * length + j * resolution + k * length] - pixels[(i + 1) * resolution * length + (j + 1) * resolution + k * length]) / resolution;
 					}
@@ -60,7 +59,7 @@ public class WorldTexture extends Texture {
 		}
 		textureID = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, textureID); // zu bearbeitendi Textur
-														// uf d id Setze
+													// uf d id Setze
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(pixels));
