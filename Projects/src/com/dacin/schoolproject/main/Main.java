@@ -19,9 +19,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import com.dacin.schoolproject.main.model.EulerCamera;
-import com.dacin.schoolproject.main.model.Model;
 import com.dacin.schoolproject.main.model.PlayerCamera;
+import com.dacin.schoolproject.main.objects.world.SphereObject;
 import com.dacin.schoolproject.main.objects.world.WorldFloor;
 
 public class Main implements Runnable {
@@ -38,7 +37,7 @@ public class Main implements Runnable {
 	//private static EulerCamera camera;
 	private static PlayerCamera camera;
 
-	private Model testModel;
+	private SphereObject sphere;
 	public static WorldFloor floor;
 
 	public void start() {
@@ -64,17 +63,12 @@ public class Main implements Runnable {
 		GLU.gluPerspective(fov,
 				(float) Display.getWidth() / (float) Display.getHeight(),
 				zNear, zFar);
-		/*camera = new EulerCamera.Builder()
-				.setAspectRatio((float) Display.getWidth() / Display.getHeight())
-				.setRotation(-0.0f, 0.0f, 0.0f)
-				.setPosition(-1.5f, 9.16f, 5.95f).setFieldOfView(60).build();
-		camera.applyOptimalStates();
-		camera.applyPerspectiveMatrix();*/
+		
 		camera = new PlayerCamera();
 		debug("Camera loaded sucessfully");
 		info("loading Models");
-		//testModel = ModelUtils.loadModel("Sphere.obj");
-		//testModel.setTexture(new Texture("Sphere.png"));
+		
+		sphere = new SphereObject(30.0f, 20.0f, 30.0f);
 		floor= new WorldFloor();
 
 		while (running) {
@@ -112,6 +106,7 @@ public class Main implements Runnable {
 		 glColor3f(1.0f, 1.0f, 1.0f);
 			//testModel.render();
 		 floor.render();
+		 sphere.render();
 	}
 
 }
