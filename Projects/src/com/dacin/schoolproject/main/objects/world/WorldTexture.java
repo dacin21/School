@@ -39,20 +39,21 @@ public class WorldTexture extends Texture {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
 				pixels[i * resolution * length + j * resolution] = random.nextInt(maxRedColor) / 100 << 24 + (random.nextInt(50) + 50) / 100 << 16 + random.nextInt(maxBlueColor) / 100 << 8;// 00000000x0
+			System.out.println(pixels[i * resolution * length + j * resolution] );
 			}
 		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
 				for (int k = 1; k < resolution; k++) {
-					pixels[i * resolution * length + j * resolution + k * length] = Math.abs(pixels[i * resolution * length + j * resolution] - pixels[(i + 1) * resolution * length + j * resolution]) / resolution * k;
+					pixels[i * resolution * length + j * resolution + k * length] = Math.abs(pixels[i * resolution * length + j * resolution] - pixels[(i + 1) * resolution * length + j * resolution]) / resolution * k +Math.min(pixels[i * resolution * length + j * resolution], pixels[(i + 1) * resolution * length + j * resolution]);
 				}
 			}
 		}
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < length; j++) {
-				for (int k = 0; k < resolution - 1; k++) {
-					for (int l = 0; l < resolution; l++) {
-						pixels[i * resolution * length + j * resolution + k * length + l] = Math.abs(pixels[i * resolution * length + j * resolution + k * length] - pixels[(i + 1) * resolution * length + (j + 1) * resolution + k * length]) / resolution;
+				for (int k = 0; k < resolution; k++) {
+					for (int l = 1; l < resolution; l++) {
+						pixels[i * resolution * length + j * resolution + k * length + l] = Math.abs(pixels[i * resolution * length + j * resolution + k * length] - pixels[(i + 1) * resolution * length + (j + 1) * resolution + k * length]) / resolution * l + Math.min(pixels[i * resolution * length + j * resolution + k * length], pixels[(i + 1) * resolution * length + (j + 1) * resolution + k * length]);
 					}
 				}
 			}
