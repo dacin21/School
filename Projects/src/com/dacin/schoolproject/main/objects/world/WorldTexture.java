@@ -22,7 +22,7 @@ public class WorldTexture extends Texture {
 	private final int width = WorldFloor.maxZ;
 	private final int maxBlueColor = 0x50;// 100 ist das Maximum
 	private final int maxRedColor = 0x50;// 100 ist das Maximum
-	private final int resolution = 3;// pixels per Einheit length/width
+	private final int resolution = 2;// pixels per Einheit length/width
 
 	private int pixels[] = new int[length * resolution * width * resolution];
 
